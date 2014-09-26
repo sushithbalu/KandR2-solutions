@@ -1,0 +1,30 @@
+write undef
+undef will remove the name and defniton from the list.
+we need two structures, previous one and current.
+
+first look wethr the string inside undef is present in the
+list or not.
+if yes break;
+remember the entry(asign prev to p)
+
+if name found there may be 2 cases. 
+ 1. name at first in the hash list
+ 2. elsewhere
+
+ if name found at first(L1) assign next list block to tha
+hash table   
+   ___    ,----------, link 
+  |.#.|  /  ,____,    \,____,
+  | --|--  -|_L1_|-   -|_L2_|--   ...
+  |.#.|       |
+    :         \__remove
+    :
+  |...|	  undef L1 and link L2 to hash table
+  |___|
+
+elsewhere
+,_________,    undef(L2), remove L2; link L1 and L3
+|hashtable|        ,____,    ,____,    ,____,
+|         |   ...  |_L1_|-  -|_L2_|-  -|_L3_|  ...
+'''''''''''          |                   ^
+                     !___________________!

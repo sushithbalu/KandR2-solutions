@@ -1,0 +1,104 @@
+Chapter6 STRUCTURES:
+
+A structure is a collection of one or more variables, possibly of different types, grouped together under a single
+name for convenient handling.
+eg; payroll, graphics:  points, rectangles
+struct name {
+	char ..
+	int ..
+	float ..
+};
+int main(){
+struct student s
+s. ..
+s. ..
+}  
+
+void func(struct student record)  --> struct using value
+func(record)  --> function calling
+void func(struct student *record)   --> struct using address
+func(&record)  --> function calling
+
+struct global declaration..
+struct student{
+	int ..
+	};
+	struct student record;
+	void func();
+	int main()
+	...	
+
+    "." "->"
+
+Dont forget the semicolon..
+
+$Second Time reading$
+structures help to organize complicated datas especially in large programs..
+
+6.1 Basics of Structures: C structures suitable for graphics(not really)..
+coordinates(x,y)   ^
+		  y|
+		   |   .(x,y)
+		   |
+		---|--------->
+	      (0,0)|       x
+
+struct point{..};, struct student{..};, point and student are called 
+tags(optional)..
+struct-name.member-pt.x, pt.y, record.id, record.name..
+
+6.2 Structures and Functions: Three possible ways to write fuctions using 
+structures, 1.Pass components seperately, 2.Pass an entire structure,
+3.Pass a pointer to it.  
+
+
+/*************************************************/
+undesirable effect
+/*************************************************/
+#include<stdio.h>
+#include<string.h>
+
+struct student
+{
+        int id;
+        char name[30]; /*should be sufficiantly large enough*/
+        float percentage;
+};
+
+int main()
+{
+        int i;
+        struct student record[1];
+
+
+        record[0].id = 234;
+        strcpy(record[0].name, "riyas");
+        record[0].percentage = 86.5;
+
+        record[1].id = 33;
+        strcpy(record[1].name, "jubin");
+        record[1].percentage = 99.99;
+
+for(i = 0; i <2; i++)
+        printf("%d %s %f \n \n\n", record[i].id, record[i].name, record[i].percentage);
+        return 0;
+}
+/*************************************************/
+
+Exercise 6-1 getword modification
+handle errors, string constands, comments or preprocessor control lines.
+solution:
+	 preprocessor control lines= something like #include
+	 comments= /*comment*/
+	 
+if(isalpha(c)||c = '_'|| c == '#') handles underscore and
+preprocessor lines inside this loop
+if(!isalnum(*w = getch()) && *w != '_') handles errors
+
+
+
+Exercise 6-2 program to read cprogram and prints in alphabetical order
+solution:
+
+->read the word using getword and install it them in tree with add tree.
+
