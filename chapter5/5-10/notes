@@ -1,0 +1,12 @@
+program to evaluate RPN from command line.
+
+argc - count
+argv - vector
+
+*argv - may be a number or unary operator(+, -, *, /)
+
+before switch statement we need to seperate numbers and unary 
+operators.
+
+case -if it is a number push atof() ,otherwise push(operation 
+corresponds to the operator pointer)

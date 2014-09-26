@@ -1,0 +1,42 @@
+  Chapter5: Pointers and Arrays
+
+
+
+_____________________________________________________________________
+Idea behind Quick sort:
+1. Take a list of numbers.
+2. pick pivot P.
+3. make two lists, one of all the numbers less than P and one of all
+   the numbers greaterthan P.
+.................
+...............
+...........
+
+void qsort(void **v, int left, int right, int (*comp)(void*, void*))
+{
+	int i, last;
+	void swap(int **v, int i, int j);
+	if(left >=right)/*do nothing if array contains fewerthan 2*/
+		return ;
+	[1] swap(v, left, (left + right)/2);/*more partition elements*/
+	[2] last = left;/*to v[0]*/
+	[3] for(i = left + 1; i <= right; i++)/*partition*/
+	[4] if((*comp)(v[i], v[left]<0)
+	[5] swap(v, ++last, i);
+	[6] swap(v, left, last);/*restore partition elem*/
+	[7] qsort(v, left, last-1);
+	[8] qsort(v, last+1, right);
+}
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+The most important part is the pivot(put your one feet at place, while 
+free to move other). We choose the middle element as pivot, bring it to 
+front, compare it with all other elements. If they are less than our 
+pivot we swap them and increment only our pivot position (be careful our 
+pivot element still lies at first). After we finish the loop we bring 
+the pivot element(which is at first) to this place (pivot place). 
+After the loop, we have all the elements before pivot less than pivot 
+and all those above pivot greater than pivot. At first loop they are 
+not sorted. So you must again apply same sorting algorithm recursively 
+to all elements below pivot and above pivot to sort them.
+_____________________________________________________________________

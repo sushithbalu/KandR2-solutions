@@ -1,0 +1,6 @@
+tail program
+
+usage: tail -n
+
+it is a program to print last n lines of given text file.
+
