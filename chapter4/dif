@@ -1,0 +1,164 @@
+2c2,3
+< ????????????????????
+---
+> Modify getop so that it doesn't need to use ungetch. Hint: use an
+> internal static variable.
+7a9
+> #define MAXA 1000
+11a14
+> int g_etline(char [], int );
+12a16,17
+> static int j;
+> static char line[MAXA];
+20,53c25,59
+< 
+< 	while ((type = getop(s)) != EOF) {
+< 		switch (type) {
+< 			case NUMBER:
+< 				push(atof(s));
+< 				break;
+< 			case '+':
+< 				push(pop() + pop());
+< 				break;
+< 			case '*':
+< 				push(pop() * pop());
+< 				break;
+< 			case '-':
+< 				op2 = pop();
+< 				push(pop() - op2);
+< 				break;
+< 			case '/':
+< 				op2 = pop();
+< 				if (op2 != 0.0)
+< 					push(pop() / op2);
+< 				else
+< 					printf("error: zero divisor\n");
+< 				break;
+< 			case '%':
+< 				op2 = pop();
+< 				push((int)pop() %(int)op2);
+< 				break;
+< 			case '\n':
+< 				printf("\t%.8g\n", pop());
+< 				break;
+< 
+< 			default:
+< 				printf("error: unknown command %s\n", s);
+< 				break;
+---
+> 	while(g_etline(line, MAXA) != 0)
+> 	{	
+> 		while ((type = getop(s)) != '\0') {
+> 			switch (type) {
+> 				case NUMBER:
+> 					push(atof(s));
+> 					break;
+> 				case '+':
+> 					push(pop() + pop());
+> 					break;
+> 				case '*':
+> 					push(pop() * pop());
+> 					break;
+> 				case '-':
+> 					op2 = pop();
+> 					push(pop() - op2);
+> 					break;
+> 				case '/':
+> 					op2 = pop();
+> 					if (op2 != 0.0)
+> 						push(pop() / op2);
+> 					else
+> 						printf("error: zero divisor\n");
+> 					break;
+> 				case '%':
+> 					op2 = pop();
+> 					push((int)pop() %(int)op2);
+> 					break;
+> 				case '\n':
+> 					printf("\t%.8g\n", pop());
+> 					break;
+> 				default:
+> 					printf("error: unknown command %s\n", s);
+> 					break;
+> 			}
+54a61
+> 		j = 0;
+59a67
+> 
+61a70
+> 
+65c74
+< 	val[sp++] = f;
+---
+> 		val[sp++] = f;
+67c76
+< 	printf("error: stack full, can't push %g\n", f);
+---
+> 		printf("error: stack full, can't push %g\n", f);
+77c86,99
+< 		return 0.0;
+---
+> 	return 0.0;
+> }
+> /*getline:return i*/
+> #include <string.h>
+> int g_etline(char s[], int lim)
+> {
+> 	int i, c;
+> 	i = 0;
+> 	while(--lim > 0 &&(c = getchar()) != EOF && c != '\n')
+> 		s[i++] = c;
+> 	if(c == '\n')
+> 		s[i++] = c;
+> 	s[i] = '\0';
+> 	return i;
+79,82d100
+< 
+< 
+< int getch(void);
+< 
+89,96c107
+< 	static int state;
+< 	if(state != EOF)
+< 		c = getch();
+< 	else
+< 		c = state;
+< 		state= EOF; 
+< 
+< 	while ((s[0] = c = getch()) == ' ' || c == '\t'|| c == EOF)
+---
+> 	while ((s[0] = c = line[j++]) == ' ' || c == '\t')
+99,100c110,112
+< 	if(!isdigit(c) && c != '.')
+< 		return c;
+---
+> 	if (!isdigit(c) && c != '.')
+> 	return c;
+> 	/* not a number */
+101a114
+> 	if (isdigit(c))
+103,104c116
+< 	if(isdigit(c))
+< 	while (isdigit(s[++i] = c = getch()))
+---
+> 	while (isdigit(s[++i] = c = line[j++]))
+108c120
+< 		while (isdigit(s[++i] = c = getch()))
+---
+> 		while (isdigit(s[++i] = c = line[j++]))
+111,112c123
+< 	if (c !=EOF)
+< 		state = c;
+---
+> 	j--;
+115,124d125
+< #define BUFSIZE 100
+< char buf[BUFSIZE];
+< int bufp = 0;
+< /* buffer for ungetch */
+< /* next free position in buf */
+< int getch(void) /* get a (possibly pushed-back) character */
+< {
+< 	return (bufp > 0) ? buf[--bufp] : getchar();
+< }
+< 
